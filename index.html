@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nossas primeiras vezes</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #fdf6f3;
+    color: #4a2e2e;
+  }
+  header {
+    text-align: center;
+    padding: 24px 16px 12px;
+    background: linear-gradient(180deg, #fdf0ec 0%, #fdf6f3 100%);
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #b5495b;
+    letter-spacing: 0.5px;
+  }
+  header p {
+    margin: 0;
+    font-size: 14px;
+    color: #8a6a6a;
+  }
+  #map {
+    height: 70vh;
+    width: 100%;
+    min-height: 420px;
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: 14px;
+  }
+  .popup-card {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    max-width: 230px;
+  }
+  .popup-card h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #b5495b;
+  }
+  .popup-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5a4040;
+  }
+  .popup-card .tag {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    background: #fbe1e6;
+    color: #b5495b;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  footer {
+    text-align: center;
+    padding: 18px 16px 28px;
+    font-size: 13px;
+    color: #a98484;
+  }
+  .heart-icon {
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>♥ Nossas primeiras vezes ♥</h1>
+  <p>Um mapa com pedacinhos da nossa história — clique nos coraçõezinhos</p>
+</header>
+
+<div id="map"></div>
+
+<footer>feito com carinho, para você 💌</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([-15.0, -45.0], 4);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Ícone de coração customizado
+  var heartIcon = L.divIcon({
+    html: '<div style="font-size:26px; line-height:1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));">❤️</div>',
+    className: '',
+    iconSize: [26, 26],
+    iconAnchor: [13, 13],
+    popupAnchor: [0, -14]
+  });
+
+  var memorias = [
+    {
+      titulo: "Onde nos conhecemos",
+      lat: -22.8974, lng: -43.1990,
+      texto: "Escritório da Ação da Cidadania, Gamboa, Rio de Janeiro — o lugar onde tudo começou.",
+      tag: "O começo"
+    },
+    {
+      titulo: "Primeiro flerte",
+      lat: -22.9504, lng: -43.1825,
+      texto: "Troca de artes no Chora Bar, Botafogo — quando algo no ar começou a mudar.",
+      tag: "Primeiro flerte"
+    },
+    {
+      titulo: "Primeiro beijo",
+      lat: -22.9171, lng: -43.2316,
+      texto: "Mangabar, Mangueira — nosso primeiro beijo.",
+      tag: "Primeiro beijo"
+    },
+    {
+      titulo: "Primeiro mergulho na chuva",
+      lat: -12.9750, lng: -38.5300,
+      texto: "Praia do Porto da Barra, Salvador — corremos pra dentro do mar debaixo de chuva.",
+      tag: "Primeira aventura"
+    },
+    {
+      titulo: "Primeira vez no cerrado",
+      lat: -14.0833, lng: -47.5667,
+      texto: "Parque Nacional da Chapada dos Veadeiros, GO — cachoeiras, céu aberto e a gente.",
+      tag: "Primeira viagem juntas"
+    },
+    {
+      titulo: "Primeira viagem artística",
+      lat: -23.5874, lng: -46.6576,
+      texto: "Bienal de São Paulo 2025, Ibirapuera — arte e a gente, lado a lado.",
+      tag: "Primeira viagem cultural"
+    },
+    {
+      titulo: "Primeiro ano novo juntas",
+      lat: -22.2364, lng: -42.5306,
+      texto: "Lumiar, Nova Friburgo — nossa virada de ano, juntinhas.",
+      tag: "Primeira virada"
+    },
+    {
+      titulo: "Primeira vez em uma ilha",
+      lat: -23.0167, lng: -44.1167,
+      texto: "Ilha de Jaguanum, Praia da Estopa, Itacuruçá — nossa primeira ilha.",
+      tag: "Primeira ilha"
+    }
+  ];
+
+  var bounds = [];
+
+  memorias.forEach(function(m) {
+    var marker = L.marker([m.lat, m.lng], { icon: heartIcon }).addTo(map);
+    marker.bindPopup(
+      '<div class="popup-card">' +
+        '<h3>' + m.titulo + '</h3>' +
+        '<p>' + m.texto + '</p>' +
+        '<span class="tag">' + m.tag + '</span>' +
+      '</div>'
+    );
+    bounds.push([m.lat, m.lng]);
+  });
+
+  map.fitBounds(bounds, { padding: [40, 40] });
+</script>
+
+</body>
+</html>
